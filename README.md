@@ -4,7 +4,9 @@
 
 A Python script that fetches stock market data and visualizes key technical indicators like **SMA, EMA, RSI, and MACD** using the Alpha Vantage API.
 
-![Example Output](https://via.placeholder.com/600x400?text=Stock+Technical+Analysis+Plot) *(Replace with actual screenshot)*
+![image](https://github.com/user-attachments/assets/ac47e139-b863-40ac-9413-72e46eedfe27) ![image](https://github.com/user-attachments/assets/60546aaf-ded8-44df-a566-5ed86f33603a)
+
+
 
 ## Features
 - **Fetches historical stock data** from Alpha Vantage API
