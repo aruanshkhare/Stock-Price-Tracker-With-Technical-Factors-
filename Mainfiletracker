@@ -3,11 +3,12 @@ import requests
 import matplotlib.pyplot as plt
 import pandas as pd
 
-#Alpha Vantage is used for API
-api_key  = 'api key'                  
+# Configuration
+api_key  = '6SHWDZG9PIG0D571'
 TICKER = "ADANIPOWER.BSE"
 RETRY_COUNT = 3
-INITIAL_RETRY_DELAY = 60  # seconds
+INITIAL_RETRY_DELAY = 60
+
 
 def fetch_data(ticker, api_key, count=200):
     """Fetch historical stock data from Alpha Vantage API."""
@@ -26,7 +27,7 @@ def fetch_data(ticker, api_key, count=200):
             raise ValueError("Unexpected API response format")
 
         df = pd.DataFrame(data['Time Series (Daily)']).T
-        df = df[['1. open', '2. high', '3. low', '4. close', '5. volume']]
+        df = df[['1. open','2. high', '3. low', '4. close', '5. volume']]
         df.columns = ['open', 'high', 'low', 'close', 'volume']
         df = df.astype(float)
         df.index = pd.to_datetime(df.index)
@@ -42,7 +43,7 @@ def calculate_indicators(data):
     data['SMA_200'] = data['close'].rolling(200).mean()
     data['EMA_50'] = data['close'].ewm(span=50, adjust=False).mean()
     
-    # Calculate RSI
+    #RSI
     delta = data['close'].diff()
     gain = delta.where(delta > 0, 0)
     loss = -delta.where(delta < 0, 0)
@@ -51,7 +52,7 @@ def calculate_indicators(data):
     rs = avg_gain / avg_loss
     data['RSI_14'] = 100 - (100 / (1 + rs))
     
-    # Calculate MACD
+    #MACD
     ema12 = data['close'].ewm(span=12, adjust=False).mean()
     ema26 = data['close'].ewm(span=26, adjust=False).mean()
     data['MACD'] = ema12 - ema26
@@ -64,7 +65,7 @@ def plot_data(data, ticker):
     plt.figure(figsize=(14, 12))
     plt.suptitle(f"{ticker} Technical Analysis", y=0.95)
 
-    # Price and Moving Averages
+    #Price and Moving Averages
     ax1 = plt.subplot(3, 1, 1)
     ax1.plot(data['close'], label='Close Price', color='navy')
     ax1.plot(data['SMA_200'], label='SMA 200', color='orange', linestyle='--')
@@ -73,7 +74,7 @@ def plot_data(data, ticker):
     ax1.legend()
     ax1.grid(True)
 
-    # RSI
+    #RSI
     ax2 = plt.subplot(3, 1, 2, sharex=ax1)
     ax2.plot(data['RSI_14'], label='RSI 14', color='green')
     ax2.axhline(70, color='red', linestyle='--')
@@ -82,7 +83,7 @@ def plot_data(data, ticker):
     ax2.legend()
     ax2.grid(True)
 
-    # MACD
+    #MACD
     ax3 = plt.subplot(3, 1, 3, sharex=ax1)
     ax3.plot(data['MACD'], label='MACD', color='darkred')
     ax3.plot(data['MACD_Signal'], label='Signal Line', color='darkgreen')
@@ -112,7 +113,7 @@ def main():
                 
             data = calculate_indicators(data)
             
-            # Print latest values
+            # Printing the last values
             latest = data.iloc[-1]
             print(f"\nLatest Technical Indicators:")
             print(f"Close Price: {latest['close']:.2f}")
