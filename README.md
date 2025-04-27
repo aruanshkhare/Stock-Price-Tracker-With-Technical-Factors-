@@ -24,4 +24,3 @@ A Python script that fetches stock market data and visualizes key technical indi
 ## Prerequisites
 - Python 3.8+
 - Alpha Vantage API key (free tier available)
-- Required Python packages:
